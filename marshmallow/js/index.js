@@ -33,7 +33,6 @@
     a.setAttribute("data-url", url);
     a.setAttribute("class", "block-message");
     a.setAttribute("title", "画像ダウンロード");
-    console.log(alreadyDownloaded)
     if (alreadyDownloaded) a.style.color = "#666";
     a.addEventListener( "click" , openIframe , false );
     // アイコンを追加
@@ -46,22 +45,35 @@
     return li;
   }
 
-  chrome.runtime.sendMessage( { functionName: 'getDownloadedUrls' }, function(res){
-    var donwloadedUrls = res.donwloadedUrls;
-    var question_boxes = $('li.list-group-item.message[data-controller="message"]');
-    question_boxes.each(function(i, q) {
-      var url = $(q).find('div div div a').prop('href');
-      var alreadyDownloaded = donwloadedUrls.indexOf(url) != -1;
-      var li = createDownloadLink(url, alreadyDownloaded)
-      $(q).find('ul li:last-child').before(li)
-    });
-  })
+  displayDownloadIcon();
 
-  // 質問一覧がJSで再描画されるっぽいのでリロードする
-  $('div.card-header ul li a').click(function(){
-    setTimeout(function(){
-      location.href = location.href;
-    }, 200);
-  })
+  var href = location.href;
+  // ページ移動でjsがリロードされずDOMとURLだけ変わるので
+  var observer = new MutationObserver(function(mutations) {
+    console.log(location.href)
+    if(href !== location.href) {
+      // 遅延がないと表示されないことがあるので
+      setTimeout(function(){
+        displayDownloadIcon();
+      }, 500);
+      href = location.href;
+    }
+  });
+  observer.observe(document, { childList: true, subtree: true });
+
+
+  // ダウンロードアイコンを表示する
+  function displayDownloadIcon() {
+    chrome.runtime.sendMessage( { functionName: 'getDownloadedUrls' }, function(res){
+      var donwloadedUrls = res.donwloadedUrls;
+      var question_boxes = $('li.list-group-item.message[data-controller="message"]');
+      question_boxes.each(function(i, q) {
+        var url = $(q).find('div div div a').prop('href');
+        var alreadyDownloaded = donwloadedUrls.indexOf(url) != -1;
+        var li = createDownloadLink(url, alreadyDownloaded)
+        $(q).find('ul li:last-child').before(li)
+      });
+    })
+  }
 
 })();

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "質問画像ダウンローダー",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "質問箱・マシュマロの質問画像を1クリックでダウンロードできます",
   "short_name": "質問画像ダウンローダー",
   "icons" : {
@@ -17,7 +17,7 @@
     "js": ["library/jquery-3.3.1.min.js", "peing/js/index.js"]
   }, {
     "matches": [
-      "https://marshmallow-qa.com/messages/*"
+      "https://marshmallow-qa.com/*"
     ],
     "js": ["library/jquery-3.3.1.min.js", "marshmallow/js/index.js"]
   }],
@@ -28,9 +28,6 @@
     ]
    },
   "permissions": [
-    "downloads",
-    "tabs",
-    "<all_urls>",
-    "activeTab"
+    "downloads"
   ]
 }
