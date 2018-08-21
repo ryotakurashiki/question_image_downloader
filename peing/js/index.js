@@ -1,6 +1,7 @@
 'use strict';
 
 (function(){
+
   // 質問画像が表示されるページをiframeで開く
   const openIframe = function(event){
     var url = event.target.dataset.url;
@@ -63,7 +64,7 @@
       var formattedDate = createFormattedDate(dateText)
       var alreadyDownloaded = donwloadedUrls.indexOf(url) != -1;
       var a = createDownloadLink(url, formattedDate, alreadyDownloaded)
-      $(q).find('div.remove').append(a)
+      $(q).find('div.change-status').append(a)
     });
   })
 

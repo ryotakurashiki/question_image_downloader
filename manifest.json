@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "質問画像ダウンローダー",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "質問箱・マシュマロの質問画像を1クリックでダウンロードできます",
   "short_name": "質問画像ダウンローダー",
   "icons" : {
