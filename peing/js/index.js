@@ -47,12 +47,17 @@
 
   // 月/日を年月日に変換する
   var createFormattedDate = function(dateText) {
-    var array = dateText.split('/');
     var currentMonth = new Date().getMonth() + 1;
     var currentYear = new Date().getFullYear();
-    var year = currentMonth >= array[0] ? currentYear : currentYear - 1;
-    var array = array.map(function(a){ return ("0" + a).slice(-2); });
-    return String(year) + array.join("");
+    if (dateText.match(/[0-9]+\/[0-9]+/)) {
+      var array = dateText.split('/');
+      var year = currentMonth >= array[0] ? currentYear : currentYear - 1;
+      var array = array.map(function(a){ return ("0" + a).slice(-2); });
+      return String(year) + array.join("");
+    } else {
+      var currentDate = new Date().getDate();
+      return String(currentYear) + ("0" + currentMonth).slice(-2) + ("0" + currentDate).slice(-2);
+    }
   }
 
   chrome.runtime.sendMessage( { functionName: 'getDownloadedUrls' }, function(res){
